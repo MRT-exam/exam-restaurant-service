@@ -1,6 +1,6 @@
-package com.MTGO.restaurantservice.respoitory;
+package com.mtgo.exam.restaurantservice.respoitory;
 
-import com.MTGO.restaurantservice.model.Restaurant;
+import com.mtgo.exam.restaurantservice.model.Restaurant;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

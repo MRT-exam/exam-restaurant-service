@@ -1,6 +1,6 @@
 package com.mtgo.exam.restaurantservice.dto;
 
-import com.MTGO.restaurantservice.model.Restaurant;
+import com.mtgo.exam.restaurantservice.model.Restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
