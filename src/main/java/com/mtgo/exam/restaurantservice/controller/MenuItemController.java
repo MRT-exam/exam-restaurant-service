@@ -1,8 +1,7 @@
-package com.MTGO.restaurantservice.controller;
+package com.mtgo.exam.restaurantservice.controller;
 
-import com.MTGO.restaurantservice.dto.MenuItemRequest;
-import com.MTGO.restaurantservice.dto.MenuItemResponse;
-import com.MTGO.restaurantservice.service.MenuItemService;
+import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
+import com.mtgo.exam.restaurantservice.dto.;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

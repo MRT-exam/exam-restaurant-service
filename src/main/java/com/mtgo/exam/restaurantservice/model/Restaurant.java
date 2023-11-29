@@ -1,4 +1,4 @@
-package com.MTGO.restaurantservice.model;
+package com.mtgo.exam.restaurantservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
