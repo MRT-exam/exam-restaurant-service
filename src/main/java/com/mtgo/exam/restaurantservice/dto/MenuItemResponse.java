@@ -1,4 +1,4 @@
-package com.MTGO.restaurantservice.dto;
+package com.mtgo.exam.restaurantservice.dto;
 
 
 import com.mtgo.exam.restaurantservice.model.Restaurant;

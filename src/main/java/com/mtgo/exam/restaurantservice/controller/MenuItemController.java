@@ -1,6 +1,7 @@
 package com.mtgo.exam.restaurantservice.controller;
 
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
+import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
 import com.mtgo.exam.restaurantservice.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class MenuItemController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<com.MTGO.restaurantservice.dto.MenuItemResponse> getAllMenuItems(){
+    public List<MenuItemResponse> getAllMenuItems(){
         return menuItemService.getAllMenuItems();
     }
 }

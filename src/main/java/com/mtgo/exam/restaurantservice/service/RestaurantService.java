@@ -1,9 +1,9 @@
-package com.MTGO.restaurantservice.service;
+package com.mtgo.exam.restaurantservice.service;
 
-import com.MTGO.restaurantservice.dto.RestaurantRequest;
-import com.MTGO.restaurantservice.dto.RestaurantResponse;
-import com.MTGO.restaurantservice.model.Restaurant;
-import com.MTGO.restaurantservice.respoitory.RestaurantRepository;
+import com.mtgo.exam.restaurantservice.dto.RestaurantRequest;
+import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
+import com.mtgo.exam.restaurantservice.model.Restaurant;
+import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

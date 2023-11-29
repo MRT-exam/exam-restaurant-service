@@ -1,7 +1,7 @@
 package com.mtgo.exam.restaurantservice.service;
 
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
-import com.MTGO.restaurantservice.dto.MenuItemResponse;
+import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
 import com.mtgo.exam.restaurantservice.model.MenuItem;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
 import com.mtgo.exam.restaurantservice.respoitory.MenuItemRepository;
