@@ -2,8 +2,8 @@ FROM openjdk:17
 
 WORKDIR /usr/src/app
 
-COPY target/springboot-docker-compose.jar /usr/src/app/springboot-docker-compose.jar
+COPY target/exam-restaurant-service.jar /usr/src/app/exam-restaurant-service.jar
 
 RUN ls -R /usr/src/app
 
-CMD ["java", "-jar", "springboot-docker-compose.jar"]
+CMD ["java", "-jar", "exam-restaurant-service.jar"]
