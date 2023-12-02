@@ -26,4 +26,9 @@ public class MenuItemController {
     public List<MenuItemResponse> getAllMenuItems(){
         return menuItemService.getAllMenuItems();
     }
+    @GetMapping("/byRestaurant")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MenuItemResponse> getMenuItemsByRestaurantId(@RequestParam String restaurantId) {
+        return menuItemService.getMenuItemsByRestaurantId(restaurantId);
+    }
 }

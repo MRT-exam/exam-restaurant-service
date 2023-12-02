@@ -48,6 +48,14 @@ public class MenuItemService {
         return menuItems.stream().map(this::mapToMenuItemResponse).toList();
     }
 
+    public List<MenuItemResponse> getMenuItemsByRestaurantId(String restaurantId) {
+        log.info("Getting menu items for restaurant with ID: {}", restaurantId);
+
+        List<MenuItem> menuItems = menuItemRepository.findByRestaurant(restaurantId);
+
+        return menuItems.stream().map(this::mapToMenuItemResponse).toList();
+    }
+
     private MenuItemResponse mapToMenuItemResponse(MenuItem menuItem){
         return MenuItemResponse.builder()
                 .id(menuItem.getId())
