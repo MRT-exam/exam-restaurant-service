@@ -61,7 +61,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v1
         with:
-          images: theagns/springdockercompose
+          images: theagns/exam-restaurant-service
 
       - name: Debug print working directory contents
         run: ls -R
