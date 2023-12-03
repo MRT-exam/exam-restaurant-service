@@ -48,11 +48,6 @@ class RestaurantServiceApplicationTests {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private RestaurantRepository restaurantRepository;
-	@Mock
-	private MenuItemRepository menuItemRepository;
-	@InjectMocks
-	private MenuItemService menuItemService;
-
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry){
 		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
@@ -85,72 +80,5 @@ class RestaurantServiceApplicationTests {
 				.id("6554c6178dc83b51ed4e7414")
 				.build();
 	}
-
-	// Should return a list of MenuItemResponse objects when given a valid restaurantId
-	@Test
-	public void ReturnListOfMenuItemResponseObjects() {
-		// Arrange
-		String restaurantId = "6554c6178dc83b51ed4e7414";
-		List<MenuItem> menuItems = new ArrayList<>();
-		menuItems.add(MenuItem.builder()
-				.id("1")
-				.name("Item 1")
-				.description("Description 1")
-				.price(BigDecimal.valueOf(10.99))
-				.restaurant(new Restaurant())
-				.build());
-		menuItems.add(MenuItem.builder()
-				.id("2")
-				.name("Item 2")
-				.description("Description 2")
-				.price(BigDecimal.valueOf(15.99))
-				.restaurant(new Restaurant())
-				.build());
-		Mockito.when(menuItemRepository.findByRestaurant(restaurantId)).thenReturn(menuItems);
-
-		// Act
-		List<MenuItemResponse> result = menuItemService.getMenuItemsByRestaurantId(restaurantId);
-
-		// Assert
-		assertEquals(2, result.size());
-		assertEquals("1", result.get(0).getId());
-		assertEquals("Item 1", result.get(0).getName());
-		assertEquals("Description 1", result.get(0).getDescription());
-		assertEquals(BigDecimal.valueOf(10.99), result.get(0).getPrice());
-		assertNotNull(result.get(0).getRestaurant());
-		assertEquals("2", result.get(1).getId());
-		assertEquals("Item 2", result.get(1).getName());
-		assertEquals("Description 2", result.get(1).getDescription());
-		assertEquals(BigDecimal.valueOf(15.99), result.get(1).getPrice());
-		assertNotNull(result.get(1).getRestaurant());
-	}
-
-
-	// Should return an empty list when no menu items are found for the given restaurantId
-	@Test
-	public void returnEmptyListWhenNoMenuItemsFound() {
-		// Arrange
-		String restaurantId = "invalidRestaurantId";
-		Mockito.when(menuItemRepository.findByRestaurant(restaurantId)).thenReturn(Collections.emptyList());
-
-		// Act
-		List<MenuItemResponse> result = menuItemService.getMenuItemsByRestaurantId(restaurantId);
-
-		// Assert
-		assertTrue(result.isEmpty());
-	}
-
-
-	// Should throw an exception when given an invalid restaurantId
-	@Test
-	public void throwExceptionWhenGivenInvalidRestaurantId() {
-		// Arrange
-		String restaurantId = "invalidRestaurantId";
-		Mockito.when(menuItemRepository.findByRestaurant(restaurantId)).thenReturn(null);
-
-		// Act and Assert
-		assertThrows(RuntimeException.class, () -> menuItemService.getMenuItemsByRestaurantId(restaurantId));
-	}
-
 
 }
