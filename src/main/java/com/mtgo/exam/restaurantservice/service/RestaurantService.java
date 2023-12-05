@@ -1,5 +1,6 @@
 package com.mtgo.exam.restaurantservice.service;
 
+import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
 import com.mtgo.exam.restaurantservice.dto.RestaurantRequest;
 import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j // vores logging
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final MenuItemService menuItemService;
 
     public void createRestaurant(RestaurantRequest restaurantRequest) {
         Restaurant restaurant = Restaurant.builder()
@@ -100,5 +103,4 @@ private List<RestaurantRequest> readRestaurantCsv(String filePath) throws IOExce
             log.error("Error reading ny fel CSV file: {}", e.getMessage());
         }
     }
-
 }

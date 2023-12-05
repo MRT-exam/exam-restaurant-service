@@ -35,7 +35,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@Disabled
 @SpringBootTest
 @Testcontainers
 @AutoConfigureMockMvc

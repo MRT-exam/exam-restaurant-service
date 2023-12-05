@@ -4,3 +4,8 @@ spring:
       database: restaurant
       host: mongo_db
       port: 27017
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest

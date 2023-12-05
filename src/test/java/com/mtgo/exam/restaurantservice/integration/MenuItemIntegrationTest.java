@@ -82,6 +82,7 @@ class MenuItemIntegrationTest {
         dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
 
+
     @Test
     void createMenuItemAndRetrieveFromDatabase() throws Exception {
         // creating a test restaurant
@@ -163,16 +164,16 @@ class MenuItemIntegrationTest {
     // Should return an empty list when no menu items are found for the given restaurantId
     @Test
     public void returnEmptyListWhenNoMenuItemsFound() {
-        // Arrange
-        String restaurantId = "invalidRestaurantId";
-        Mockito.when(menuItemRepository1.findByRestaurant(restaurantId)).thenReturn(Collections.emptyList());
+            // Arrange
+            String restaurantId = "invalidRestaurantId";
 
-        // Act
-        List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
+            // Act
+            List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
 
-        // Assert
-        assertTrue(result.isEmpty());
-    }
+            // Assert
+            assertTrue(result.isEmpty());
+        }
+
 
 
     // Should throw an exception when given an invalid restaurantId
