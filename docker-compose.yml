@@ -7,20 +7,22 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - order-service-net
+      - exam-mtgo
 
   exam-restaurant-service:
-    image: exam-restaurant-service:latest
-    container_name: "exam-restaurant-service"
+    container_name: restaurant-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
-      - "9090:8080"
+      - "8082:8082"
     environment:
         SPRING_RABBITMQ_HOST: rabbitmq
         SPRING_RABBITMQ_PORT: 5672
+        SPRING_PROFILES_ACTIVE: docker
     networks:
-      - order-service-net
+      - exam-mtgo
 
 networks:
-  order-service-net:
-    external:
-     name: order-service-net
+  exam-mtgo:

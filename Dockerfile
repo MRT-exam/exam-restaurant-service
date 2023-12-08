@@ -1,9 +1,7 @@
-FROM openjdk:17
+FROM maven:3.8.5-openjdk-17 AS build
 
-WORKDIR /usr/src/app
+WORKDIR /restaurant-service
+COPY . .
+RUN mvn clean install -DskipTests
 
-COPY target/exam-restaurant-service.jar /usr/src/app/exam-restaurant-service.jar
-
-RUN ls -R /usr/src/app
-
-CMD ["java", "-jar", "exam-restaurant-service.jar"]
+CMD mvn spring-boot:run
