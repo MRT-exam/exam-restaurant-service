@@ -24,3 +24,5 @@ services:
 
 networks:
   exam-mtgo:
+      external:
+        name: exam-mtgo
