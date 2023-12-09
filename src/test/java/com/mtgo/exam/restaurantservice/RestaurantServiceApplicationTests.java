@@ -1,7 +1,9 @@
 package com.mtgo.exam.restaurantservice;
 
+import com.mtgo.exam.restaurantservice.controller.RestaurantController;
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
 import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
+import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
 import com.mtgo.exam.restaurantservice.model.MenuItem;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
 import com.mtgo.exam.restaurantservice.respoitory.MenuItemRepository;
@@ -47,6 +49,8 @@ class RestaurantServiceApplicationTests {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private RestaurantRepository restaurantRepository;
+	@Autowired
+	private RestaurantController restaurantController;
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry){
 		dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
@@ -79,5 +83,26 @@ class RestaurantServiceApplicationTests {
 				.id("6554c6178dc83b51ed4e7414")
 				.build();
 	}
+	@Test
+	public void test_instantiation_with_all_fields_populated() {
+		String id = "123";
+		String name = "Restaurant";
+		String email = "restaurant@example.com";
+		RestaurantResponse response = new RestaurantResponse(id, name, email);
+		assertEquals(id, response.getId());
+		assertEquals(name, response.getName());
+		assertEquals(email, response.getEmail());
+	}
+
+	@Test
+	public void test_successful_csv_read_and_create_restaurants() {
+		restaurantController.populateDatabaseFromCsv();
+		List<RestaurantResponse> createdRestaurants = restaurantController.getAllMenuRestaurants();
+
+		assertNotNull(createdRestaurants);
+		assertFalse(createdRestaurants.isEmpty());
+
+	}
+
 
 }
