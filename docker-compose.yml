@@ -16,8 +16,6 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-        SPRING_RABBITMQ_HOST: rabbitmq
-        SPRING_RABBITMQ_PORT: 5672
         SPRING_PROFILES_ACTIVE: docker
     networks:
       - exam-mtgo
