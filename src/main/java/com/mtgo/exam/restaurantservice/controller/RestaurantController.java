@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/populate")
+@RequestMapping("/api/restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
 
@@ -23,7 +23,7 @@ public class RestaurantController {
     }
 
     private final RestaurantService restaurantService;
-    @PostMapping
+    @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
         restaurantService.createRestaurant(restaurantRequest);

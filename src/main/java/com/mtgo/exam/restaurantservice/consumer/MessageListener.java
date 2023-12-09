@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class MessageListener {
-    @RabbitListener(queues = MQConfig.QUEUE)
+    @RabbitListener(queues = MQConfig.ORDER_PLACED_QUEUE)
     public void listener (OrderPlacedMessage orderPlacedMessage){
         System.out.println(orderPlacedMessage);
         log.info("OrDeRNÅMBER: ", orderPlacedMessage.getOrderNumber());
