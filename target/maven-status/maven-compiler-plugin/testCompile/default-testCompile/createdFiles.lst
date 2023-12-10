@@ -1,2 +1,2 @@
-com/mtgo/exam/restaurantservice/RestaurantServiceApplicationTests.class
-com/mtgo/exam/restaurantservice/integration/MenuItemIntegrationTest.class
+com\mtgo\exam\restaurantservice\integration\MenuItemIntegrationTest.class
+com\mtgo\exam\restaurantservice\RestaurantServiceApplicationTests.class

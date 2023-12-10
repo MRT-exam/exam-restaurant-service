@@ -100,7 +100,7 @@ class MenuItemIntegrationTest {
                 .build();
 
         // making the request to create a menu item
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/menuItem")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/menuItem/create")
                         .param("restaurantId", "testRestaurantId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(menuItemRequest)))

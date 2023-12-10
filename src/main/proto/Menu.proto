@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.mtgo.exam.restaurantservice.grpc;
+
+option java_multiple_files = true;
+option java_package = "com.mtgo.exam.restaurantservice.grpc";
+
+service MenuService{
+  rpc Menu(MenuRequest) returns (MenuResponse){}
+}
+
+message MenuRequest{
+  string restaurantID = 1;
+}
+
+message MenuResponse{
+  repeated Item item = 1;
+}
+
+message Item{
+  string itemID = 1;
+  string name = 2;
+}
