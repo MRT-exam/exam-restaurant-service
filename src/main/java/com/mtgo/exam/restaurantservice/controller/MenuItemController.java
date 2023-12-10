@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/menuItem")
+@RequestMapping("/api/restaurants")
 @RequiredArgsConstructor
 public class MenuItemController {
 
     private final MenuItemService menuItemService;
 
-    @PostMapping
+    @PostMapping("/menuItem/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@RequestBody MenuItemRequest menuItemRequest, @RequestParam String restaurantId){
         menuItemService.createMenuItem(menuItemRequest, restaurantId);
     }
 
-    @GetMapping
+    @GetMapping("/menuItem/getAll")
     @ResponseStatus(HttpStatus.OK)
     public List<MenuItemResponse> getAllMenuItems(){
         return menuItemService.getAllMenuItems();
     }
-    @GetMapping("/byRestaurant")
+    @GetMapping("menuItem/byRestaurant")
     @ResponseStatus(HttpStatus.OK)
     public List<MenuItemResponse> getMenuItemsByRestaurantId(@RequestParam String restaurantId) {
         return menuItemService.getMenuItemsByRestaurantId(restaurantId);

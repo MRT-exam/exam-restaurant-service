@@ -67,7 +67,7 @@ class RestaurantServiceApplicationTests {
 	void shouldCreateMenuItem() throws Exception {
 		MenuItemRequest menuItemRequest = getMenuItemRequest();
 		String menuItemRequestString = objectMapper.writeValueAsString(menuItemRequest);
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/menuItem")
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/menuItem/create")
 						.param("restaurantId", "6554c6178dc83b51ed4e7414")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(menuItemRequestString))

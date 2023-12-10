@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantController {
 
-    @PostMapping("/fromCsv")
+    @PostMapping("/populate")
     @ResponseStatus(HttpStatus.CREATED)
     public void populateDatabaseFromCsv() {
         restaurantService.populateDatabaseFromCsv();
@@ -29,7 +29,7 @@ public class RestaurantController {
         restaurantService.createRestaurant(restaurantRequest);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.OK)
     public List<RestaurantResponse> getAllMenuRestaurants(){
         return restaurantService.getAllRestaurants();
