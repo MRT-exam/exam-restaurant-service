@@ -12,6 +12,6 @@ public class MessageListener {
     @RabbitListener(queues = MQConfig.ORDER_PLACED_QUEUE)
     public void listener (OrderPlacedMessage orderPlacedMessage){
         System.out.println(orderPlacedMessage);
-        log.info("OrDeRNÅMBER: ", orderPlacedMessage.getOrderNumber());
+        log.info("New Order with Order Number: {} has been placed", orderPlacedMessage.getOrderNumber());
     }
 }
