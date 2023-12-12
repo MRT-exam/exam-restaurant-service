@@ -32,7 +32,6 @@ public class MenuServiceImpl extends MenuServiceGrpc.MenuServiceImplBase {
         MenuResponse res = MenuResponse.newBuilder()
                 .addAllItem(responseItems)
                 .build();
-
         responseObserver.onNext(res);
         responseObserver.onCompleted();
     }

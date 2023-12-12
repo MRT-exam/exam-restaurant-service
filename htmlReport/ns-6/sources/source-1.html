@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MenuServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mtgo.exam.restaurantservice.grpcService</a>
+</div>
+
+<h1>Coverage Summary for Class: MenuServiceImpl (com.mtgo.exam.restaurantservice.grpcService)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MenuServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mtgo.exam.restaurantservice.grpcService;
+&nbsp;
+&nbsp;import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
+&nbsp;import com.mtgo.exam.restaurantservice.grpc.MenuRequest;
+&nbsp;import com.mtgo.exam.restaurantservice.grpc.MenuResponse;
+&nbsp;import com.mtgo.exam.restaurantservice.grpc.Item;
+&nbsp;import com.mtgo.exam.restaurantservice.grpc.MenuServiceGrpc;
+&nbsp;import io.grpc.stub.StreamObserver;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import net.devh.boot.grpc.server.service.GrpcService;
+&nbsp;
+&nbsp;import com.mtgo.exam.restaurantservice.service.MenuItemService;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;@GrpcService
+&nbsp;public class MenuServiceImpl extends MenuServiceGrpc.MenuServiceImplBase {
+&nbsp;    private final MenuItemService menuItemService;
+&nbsp;    @Override
+&nbsp;    public void menu(MenuRequest request, StreamObserver&lt;MenuResponse&gt; responseObserver) {
+<b class="fc">&nbsp;        String restaurantID = request.getRestaurantID();</b>
+<b class="fc">&nbsp;        List&lt;MenuItemResponse&gt; items = menuItemService.getMenuItemsByRestaurantId(restaurantID);</b>
+<b class="fc">&nbsp;        List&lt;Item&gt; responseItems = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (MenuItemResponse item: items) {</b>
+<b class="fc">&nbsp;            responseItems.add(Item.newBuilder()</b>
+<b class="fc">&nbsp;                    .setItemID(item.getId())</b>
+<b class="fc">&nbsp;                    .setName(item.getName())</b>
+<b class="fc">&nbsp;                    .build());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        MenuResponse res = MenuResponse.newBuilder()</b>
+<b class="fc">&nbsp;                .addAllItem(responseItems)</b>
+<b class="fc">&nbsp;                .build();</b>
+<b class="fc">&nbsp;        responseObserver.onNext(res);</b>
+<b class="fc">&nbsp;        responseObserver.onCompleted();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-12 16:01</div>
+</div>
+</body>
+</html>
