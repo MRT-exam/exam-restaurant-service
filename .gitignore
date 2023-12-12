@@ -38,3 +38,6 @@ build/
 
 # Additional file to keep
 HELP.md
+
+#ds.store
+**/.DS_Store
