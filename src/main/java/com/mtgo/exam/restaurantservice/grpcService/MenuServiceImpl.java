@@ -10,12 +10,14 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import com.mtgo.exam.restaurantservice.service.MenuItemService;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @GrpcService
+@EnableAutoConfiguration
 public class MenuServiceImpl extends MenuServiceGrpc.MenuServiceImplBase {
     private final MenuItemService menuItemService;
     @Override
