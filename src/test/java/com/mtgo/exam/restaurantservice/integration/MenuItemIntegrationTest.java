@@ -77,12 +77,11 @@ class MenuItemIntegrationTest {
     private MenuItemRepository menuItemRepository1;
     @InjectMocks
     private MenuItemService menuItemService1;
+
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
         dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
-
-
     @Test
     void createMenuItemAndRetrieveFromDatabase() throws Exception {
         // creating a test restaurant
@@ -90,26 +89,19 @@ class MenuItemIntegrationTest {
         testRestaurant.setId("testRestaurantId");
         testRestaurant.setName("Test Restaurant");
         restaurantRepository.save(testRestaurant);
-
-        // creating the  menu item request
         MenuItemRequest menuItemRequest = MenuItemRequest.builder()
                 .name("Test Item")
                 .description("Test Description")
                 .price(BigDecimal.valueOf(9.99))
-                .id("testRestaurantId")  // Use the test restaurant's ID
+                .id("testRestaurantId")
                 .build();
 
-        // making the request to create a menu item
         mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/menuItem/create")
                         .param("restaurantId", "testRestaurantId")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(menuItemRequest)))
                 .andExpect(status().isCreated());
-
-        // getting menu items from the database
         List<MenuItemResponse> menuItems = menuItemService.getMenuItemsByRestaurantId("testRestaurantId");
-
-        // assert that the menu item was created and retrieved
         assertEquals(1, menuItems.size());
         MenuItemResponse menuItemResponse = menuItems.get(0);
         assertNotNull(menuItemResponse.getId());
@@ -120,6 +112,7 @@ class MenuItemIntegrationTest {
         assertEquals("testRestaurantId", menuItemResponse.getRestaurant().getId());
         assertEquals("Test Restaurant", menuItemResponse.getRestaurant().getName());
     }
+
     // Should return a list of MenuItemResponse objects when given a valid restaurantId
     @Test
     public void ReturnListOfMenuItemResponseObjects() {
@@ -164,16 +157,15 @@ class MenuItemIntegrationTest {
     // Should return an empty list when no menu items are found for the given restaurantId
     @Test
     public void returnEmptyListWhenNoMenuItemsFound() {
-            // Arrange
-            String restaurantId = "invalidRestaurantId";
+        // Arrange
+        String restaurantId = "invalidRestaurantId";
 
-            // Act
-            List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
+        // Act
+        List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
 
-            // Assert
-            assertTrue(result.isEmpty());
-        }
-
+        // Assert
+        assertTrue(result.isEmpty());
+    }
 
 
     // Should throw an exception when given an invalid restaurantId
