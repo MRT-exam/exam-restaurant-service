@@ -30,17 +30,21 @@ public class MenuItemService {
     private final RestaurantRepository restaurantRepository;
 
     public void createMenuItem(MenuItemRequest menuItemRequest, String restaurantId){
-        log.info("Creating menu item for restaurant with ID: {}", restaurantId);
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
-        MenuItem menuItem = MenuItem.builder()
-                .name(menuItemRequest.getName())
-                .description(menuItemRequest.getDescription())
-                .price(menuItemRequest.getPrice())
-                .restaurant(restaurant)
-                .build();
-        menuItemRepository.save(menuItem);
-        log.info("Menu item {} is saved", menuItem.getId(), restaurantId);
-
+        try {
+            log.info("Creating menu item for restaurant with ID: {}", restaurantId);
+            Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+            MenuItem menuItem = MenuItem.builder()
+                    .name(menuItemRequest.getName())
+                    .description(menuItemRequest.getDescription())
+                    .price(menuItemRequest.getPrice())
+                    .restaurant(restaurant)
+                    .build();
+            menuItemRepository.save(menuItem);
+            log.info("Menu item {} is saved", menuItem.getId(), restaurantId);
+        }catch (Exception e) {
+            log.error("Error creating menu item: {}", menuItemRequest, e);
+            throw new RuntimeException("Error creating menu item", e);
+        }
     }
 
     public List<MenuItemResponse> getAllMenuItems() {
