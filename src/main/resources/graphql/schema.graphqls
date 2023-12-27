@@ -1,0 +1,9 @@
+type Query {
+    restaurantById (id: ID ): Restaurant
+}
+
+type Restaurant {
+    id: ID
+    name: String
+    email: String
+}

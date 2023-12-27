@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +41,12 @@ public class RestaurantService {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         return restaurants.stream().map(this::mapToRestaurantResponse).toList();
     }
+
+    public Optional<RestaurantResponse> getRestaurantById(String restaurantId) {
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(String.valueOf(restaurantId));
+        return restaurantOptional.map(this::mapToRestaurantResponse);
+    }
+
 
     private RestaurantResponse mapToRestaurantResponse(Restaurant restaurant) {
         return RestaurantResponse.builder()

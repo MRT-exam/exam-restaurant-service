@@ -20,7 +20,6 @@ import java.util.List;
 @EnableAutoConfiguration
 public class MenuServiceImpl extends MenuServiceGrpc.MenuServiceImplBase {
     private final MenuItemService menuItemService;
-    @Override
     public void menu(MenuRequest request, StreamObserver<MenuResponse> responseObserver) {
         String restaurantID = request.getRestaurantID();
         List<MenuItemResponse> items = menuItemService.getMenuItemsByRestaurantId(restaurantID);
