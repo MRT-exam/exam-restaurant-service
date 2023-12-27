@@ -123,17 +123,17 @@
 <!--			<artifactId>grpc-server-spring-boot-starter</artifactId>-->
 <!--			<version>2.12.0.RELEASE</version>-->
 <!--		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty-shaded-->
-		<!--<dependency>
-			<groupId>io.grpc</groupId>
-			<artifactId>grpc-netty-shaded</artifactId>
-			<version>1.60.1</version>
-		</dependency>-->
-		<!--<dependency>
-			<groupId>io.github.lognet</groupId>
-			<artifactId>grpc-spring-boot-starter</artifactId>
-			<version>5.1.5</version>
-		</dependency>-->
+<!--		 https://mvnrepository.com/artifact/io.grpc/grpc-netty-shaded-->
+<!--		<dependency>-->
+<!--			<groupId>io.grpc</groupId>-->
+<!--			<artifactId>grpc-netty-shaded</artifactId>-->
+<!--			<version>1.60.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.github.lognet</groupId>-->
+<!--			<artifactId>grpc-spring-boot-starter</artifactId>-->
+<!--			<version>5.1.5</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
@@ -193,28 +193,28 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.xolstice.maven.plugins</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.6.1</version>
-				<configuration>
-					<protocArtifact>
-						com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}
-					</protocArtifact>
-					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>
-						io.grpc:protoc-gen-grpc-java:1.4.0:exe:${os.detected.classifier}
-					</pluginArtifact>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>compile-custom</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--&lt;!&ndash;				<groupId>org.xolstice.maven.plugins</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;				<artifactId>protobuf-maven-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;				<version>0.6.1</version>&ndash;&gt;-->
+<!--				<configuration>-->
+<!--&lt;!&ndash;					<protocArtifact>&ndash;&gt;-->
+<!--&lt;!&ndash;						com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}&ndash;&gt;-->
+<!--&lt;!&ndash;					</protocArtifact>&ndash;&gt;-->
+<!--&lt;!&ndash;					<pluginId>grpc-java</pluginId>&ndash;&gt;-->
+<!--&lt;!&ndash;					<pluginArtifact>&ndash;&gt;-->
+<!--&lt;!&ndash;						io.grpc:protoc-gen-grpc-java:1.4.0:exe:${os.detected.classifier}&ndash;&gt;-->
+<!--&lt;!&ndash;					</pluginArtifact>&ndash;&gt;-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>compile</goal>-->
+<!--							<goal>compile-custom</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 		<finalName>restaurant-service</finalName>
 	</build>
