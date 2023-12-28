@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("/api/restaurants")
 @RequiredArgsConstructor
 @Slf4j
-public class RestaurantController {
+public class RestaurantController  {
 
     @PostMapping("/populate")
     @ResponseStatus(HttpStatus.CREATED)
