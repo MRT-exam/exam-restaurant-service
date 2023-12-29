@@ -1,89 +1,93 @@
 package com.mtgo.exam.restaurantservice.service;
 
-import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
+import com.mtgo.exam.restaurantservice.dto.MenuItemDto;
+import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
 import com.mtgo.exam.restaurantservice.dto.RestaurantRequest;
-import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
+import com.mtgo.exam.restaurantservice.dto.RestaurantDto;
+import com.mtgo.exam.restaurantservice.exception.error.RestaurantNotFoundException;
+import com.mtgo.exam.restaurantservice.model.MenuItem;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
-import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
+import com.mtgo.exam.restaurantservice.respository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor //laver vores menuitemrespoity construtor når man compiler
-@Slf4j // vores logging
-public class RestaurantService {
-    private final RestaurantRepository restaurantRepository;
-    private final MenuItemService menuItemService;
+@RequiredArgsConstructor
+@Slf4j
+public class RestaurantService implements IRestaurantService{
 
-    public void createRestaurant(RestaurantRequest restaurantRequest) {
+    private final IRestaurantRepository IRestaurantRepository;
+
+    public RestaurantDto createRestaurant(RestaurantRequest restaurantRequest) {
         Restaurant restaurant = Restaurant.builder()
                 .name(restaurantRequest.getName())
                 .email(restaurantRequest.getEmail())
                 .build();
-        restaurantRepository.save(restaurant);
-        log.info("Restaurant {} is saved", restaurant.getId());
+        Restaurant savedRestaurant = IRestaurantRepository.save(restaurant);
+        return this.mapToRestaurantDto(savedRestaurant);
     }
 
-    public List<RestaurantResponse> getAllRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        return restaurants.stream().map(this::mapToRestaurantResponse).toList();
+    public void createMenuItem(MenuItemRequest menuItemRequest) {
+        log.info("Creating menu item for restaurant with ID: {}", menuItemRequest.getRestaurantId());
+        Restaurant restaurant = IRestaurantRepository.findById(menuItemRequest.getRestaurantId())
+                    .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + menuItemRequest.getRestaurantId() + " not found"));
+
+        MenuItem menuItem = MenuItem.builder()
+                    .name(menuItemRequest.getName())
+                    .description(menuItemRequest.getDescription())
+                    .price(menuItemRequest.getPrice())
+                    .restaurant(restaurant)
+                    .build();
+        restaurant.getMenuItems().add(menuItem);
+        IRestaurantRepository.save(restaurant);
     }
 
-    public Optional<RestaurantResponse> getRestaurantById(String restaurantId) {
-        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(String.valueOf(restaurantId));
-        return restaurantOptional.map(this::mapToRestaurantResponse);
+    public List<RestaurantDto> getAllRestaurants() {
+        List<Restaurant> restaurants = IRestaurantRepository.findAll();
+        if (restaurants.isEmpty()) {
+            throw new RestaurantNotFoundException("No Restaurants in Database");
+        }
+        return restaurants.stream().map(this::mapToRestaurantDto).toList();
+    }
+
+    public List<MenuItemDto> getMenuItemsByRestaurantId(String restaurantId) {
+        Restaurant restaurant = IRestaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + restaurantId + "not found"));
+
+        List<MenuItemDto> menuItemDtos = restaurant.getMenuItems()
+                .stream()
+                .map(this::mapToMenuItemDto)
+                .toList();
+
+        return menuItemDtos;
     }
 
 
-    private RestaurantResponse mapToRestaurantResponse(Restaurant restaurant) {
-        return RestaurantResponse.builder()
+    private RestaurantDto mapToRestaurantDto(Restaurant restaurant) {
+        return RestaurantDto.builder()
                 .id(restaurant.getId())
                 .name(restaurant.getName())
                 .email(restaurant.getEmail())
                 .build();
     }
+    private MenuItemDto mapToMenuItemDto(MenuItem menuItem){
+        return MenuItemDto.builder()
+                .id(menuItem.getId())
+                .name(menuItem.getName())
+                .description(menuItem.getDescription())
+                .price(menuItem.getPrice())
+                .restaurant(menuItem.getRestaurant())
+                .build();
+    }
 
-//    public void populateDatabaseFromCsv() {
-//        try {
-//            Path csvFilePath = Paths.get("src/main/resources/data/restaurant.csv");
-//            List<RestaurantRequest> restaurantRequests = readRestaurantCsv(csvFilePath);
-//
-//            for (RestaurantRequest request : restaurantRequests) {
-//                createRestaurant(request);
-//            }
-//
-//            log.info("Database populated from CSV successfully.");
-//
-//        } catch (IOException e) {
-//            log.error("Error reading CSV file: {}", e.getMessage());
-//        }
-//    }
-
-//    private List<RestaurantRequest> readRestaurantCsv(Path filePath) throws IOException {
-//        try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toFile()))) {
-//            return reader.lines()
-//                    .skip(1) // Skip header line if it exists
-//                    .map(line -> {
-//                        String[] values = line.split(",");
-//                        return new RestaurantRequest(values[0], values[1]);
-//                    })
-//                    .toList();
-//        }
-//    }
-private List<RestaurantRequest> readRestaurantCsv(String filePath) throws IOException {
+    private List<RestaurantRequest> readRestaurantCsv(String filePath) throws IOException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(
             Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(filePath))))) {
         return reader.lines()

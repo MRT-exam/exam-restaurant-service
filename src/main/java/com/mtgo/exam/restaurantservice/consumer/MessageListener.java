@@ -1,8 +1,8 @@
 package com.mtgo.exam.restaurantservice.consumer;
 
+import com.mtgo.exam.restaurantservice.config.MQConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.annotation.RabbitListeners;
 
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,8 @@
 package com.mtgo.exam.restaurantservice.dto;
 
 import com.mtgo.exam.restaurantservice.model.Restaurant;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +15,19 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuItemRequest {
-    private String name;
-    private String description;
-    private BigDecimal price;
-    //private Restaurant restaurant;
+    @NotNull
+    @NotBlank
     private String id;
+    @NotNull
+    @NotBlank
+    private String name;
+    @NotNull
+    @NotBlank
+    private String description;
+    @NotNull
+    private BigDecimal price;
+    @NotNull
+    @NotBlank
+    private String restaurantId;
+
 }

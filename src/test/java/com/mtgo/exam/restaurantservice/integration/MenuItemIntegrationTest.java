@@ -2,11 +2,11 @@ package com.mtgo.exam.restaurantservice.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
-import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
+import com.mtgo.exam.restaurantservice.dto.MenuItemDto;
 import com.mtgo.exam.restaurantservice.model.MenuItem;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
-import com.mtgo.exam.restaurantservice.respoitory.MenuItemRepository;
-import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
+import com.mtgo.exam.restaurantservice.respository.MenuItemRepository;
+import com.mtgo.exam.restaurantservice.respository.IRestaurantRepository;
 import com.mtgo.exam.restaurantservice.service.MenuItemService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
@@ -68,7 +67,7 @@ class MenuItemIntegrationTest {
     private MenuItemRepository menuItemRepository;
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private IRestaurantRepository IRestaurantRepository;
 
     @Autowired
     private MenuItemService menuItemService;
@@ -88,7 +87,7 @@ class MenuItemIntegrationTest {
         Restaurant testRestaurant = new Restaurant();
         testRestaurant.setId("testRestaurantId");
         testRestaurant.setName("Test Restaurant");
-        restaurantRepository.save(testRestaurant);
+        IRestaurantRepository.save(testRestaurant);
         MenuItemRequest menuItemRequest = MenuItemRequest.builder()
                 .name("Test Item")
                 .description("Test Description")
@@ -101,16 +100,16 @@ class MenuItemIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(menuItemRequest)))
                 .andExpect(status().isCreated());
-        List<MenuItemResponse> menuItems = menuItemService.getMenuItemsByRestaurantId("testRestaurantId");
+        List<MenuItemDto> menuItems = menuItemService.getMenuItemsByRestaurantId("testRestaurantId");
         assertEquals(1, menuItems.size());
-        MenuItemResponse menuItemResponse = menuItems.get(0);
-        assertNotNull(menuItemResponse.getId());
-        assertEquals("Test Item", menuItemResponse.getName());
-        assertEquals("Test Description", menuItemResponse.getDescription());
-        assertEquals(BigDecimal.valueOf(9.99), menuItemResponse.getPrice());
-        assertNotNull(menuItemResponse.getRestaurant());
-        assertEquals("testRestaurantId", menuItemResponse.getRestaurant().getId());
-        assertEquals("Test Restaurant", menuItemResponse.getRestaurant().getName());
+        MenuItemDto menuItemDto = menuItems.get(0);
+        assertNotNull(menuItemDto.getId());
+        assertEquals("Test Item", menuItemDto.getName());
+        assertEquals("Test Description", menuItemDto.getDescription());
+        assertEquals(BigDecimal.valueOf(9.99), menuItemDto.getPrice());
+        assertNotNull(menuItemDto.getRestaurant());
+        assertEquals("testRestaurantId", menuItemDto.getRestaurant().getId());
+        assertEquals("Test Restaurant", menuItemDto.getRestaurant().getName());
     }
 
     // Should return a list of MenuItemResponse objects when given a valid restaurantId
@@ -137,7 +136,7 @@ class MenuItemIntegrationTest {
         Mockito.when(menuItemRepository1.findByRestaurant(restaurantId)).thenReturn(menuItems);
 
         // Act
-        List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
+        List<MenuItemDto> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
 
         // Assert
         Assert.assertEquals(2, result.size());
@@ -161,7 +160,7 @@ class MenuItemIntegrationTest {
         String restaurantId = "invalidRestaurantId";
 
         // Act
-        List<MenuItemResponse> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
+        List<MenuItemDto> result = menuItemService1.getMenuItemsByRestaurantId(restaurantId);
 
         // Assert
         assertTrue(result.isEmpty());

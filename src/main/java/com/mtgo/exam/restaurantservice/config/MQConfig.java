@@ -1,4 +1,4 @@
-package com.mtgo.exam.restaurantservice.consumer;
+package com.mtgo.exam.restaurantservice.config;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

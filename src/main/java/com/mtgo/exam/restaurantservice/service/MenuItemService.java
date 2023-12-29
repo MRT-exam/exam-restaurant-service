@@ -1,24 +1,16 @@
 package com.mtgo.exam.restaurantservice.service;
 
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
-import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
+import com.mtgo.exam.restaurantservice.dto.MenuItemDto;
 import com.mtgo.exam.restaurantservice.model.MenuItem;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
-import com.mtgo.exam.restaurantservice.respoitory.MenuItemRepository;
-import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
+import com.mtgo.exam.restaurantservice.respository.MenuItemRepository;
+import com.mtgo.exam.restaurantservice.respository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -27,12 +19,12 @@ import java.util.stream.Collectors;
 public class MenuItemService {
 
     private final MenuItemRepository menuItemRepository;
-    private final RestaurantRepository restaurantRepository;
+    private final IRestaurantRepository IRestaurantRepository;
 
     public void createMenuItem(MenuItemRequest menuItemRequest, String restaurantId){
         try {
             log.info("Creating menu item for restaurant with ID: {}", restaurantId);
-            Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+            Restaurant restaurant = IRestaurantRepository.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found"));
             MenuItem menuItem = MenuItem.builder()
                     .name(menuItemRequest.getName())
                     .description(menuItemRequest.getDescription())
@@ -47,12 +39,12 @@ public class MenuItemService {
         }
     }
 
-    public List<MenuItemResponse> getAllMenuItems() {
+    public List<MenuItemDto> getAllMenuItems() {
         List<MenuItem> menuItems = menuItemRepository.findAll();
         return menuItems.stream().map(this::mapToMenuItemResponse).toList();
     }
 
-    public List<MenuItemResponse> getMenuItemsByRestaurantId(String restaurantId) {
+    public List<MenuItemDto> getMenuItemsByRestaurantId(String restaurantId) {
         log.info("Getting menu items for restaurant with ID: {}", restaurantId);
 
         List<MenuItem> menuItems = menuItemRepository.findByRestaurant(restaurantId);
@@ -60,8 +52,8 @@ public class MenuItemService {
         return menuItems.stream().map(this::mapToMenuItemResponse).toList();
     }
 
-    private MenuItemResponse mapToMenuItemResponse(MenuItem menuItem){
-        return MenuItemResponse.builder()
+    private MenuItemDto mapToMenuItemResponse(MenuItem menuItem){
+        return MenuItemDto.builder()
                 .id(menuItem.getId())
                 .name(menuItem.getName())
                 .description(menuItem.getDescription())
