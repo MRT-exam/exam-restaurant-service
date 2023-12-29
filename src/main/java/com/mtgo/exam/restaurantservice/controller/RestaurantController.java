@@ -3,11 +3,11 @@ package com.mtgo.exam.restaurantservice.controller;
 
 import com.mtgo.exam.restaurantservice.dto.RestaurantRequest;
 import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
+import com.mtgo.exam.restaurantservice.model.Restaurant;
+import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
 import com.mtgo.exam.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +19,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class RestaurantController  {
+
+    private final RestaurantRepository restaurantRepository;
 
     @PostMapping("/populate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,9 +47,4 @@ public class RestaurantController  {
 //        return restaurantService.getRestaurantById(restaurantId)
 //                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 //    }
-    @QueryMapping
-    public Optional<RestaurantResponse> restaurantById(@Argument String id) {
-        log.info("Quering the restaurant data with the id {}", id);
-        return restaurantService.getRestaurantById(id);
-    }
 }

@@ -14,6 +14,7 @@ com/mtgo/exam/restaurantservice/consumer/MessageListener.class
 com/mtgo/exam/restaurantservice/respoitory/MenuItemRepository.class
 com/mtgo/exam/restaurantservice/dto/RestaurantRequest.class
 com/mtgo/exam/restaurantservice/model/Restaurant$RestaurantBuilder.class
+com/mtgo/exam/restaurantservice/controller/GraphController.class
 com/mtgo/exam/restaurantservice/controller/RestaurantController.class
 com/mtgo/exam/restaurantservice/controller/MenuItemController.class
 com/mtgo/exam/restaurantservice/dto/RestaurantResponse.class
