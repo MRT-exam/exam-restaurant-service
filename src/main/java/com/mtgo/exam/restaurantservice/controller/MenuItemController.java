@@ -14,12 +14,14 @@ import java.util.List;
 public class MenuItemController {
 
     private final MenuItemService menuItemService;
-
+    /*
     @PostMapping("/menuItem/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@RequestBody MenuItemRequest menuItemRequest, @RequestParam String restaurantId){
         menuItemService.createMenuItem(menuItemRequest, restaurantId);
     }
+
+     */
 
     @GetMapping("/menuItem/getAll")
     @ResponseStatus(HttpStatus.OK)

@@ -19,8 +19,7 @@ import java.util.List;
 public class MenuItemService {
 
     private final MenuItemRepository menuItemRepository;
-    private final IRestaurantRepository IRestaurantRepository;
-
+    /*
     public void createMenuItem(MenuItemRequest menuItemRequest, String restaurantId){
         try {
             log.info("Creating menu item for restaurant with ID: {}", restaurantId);
@@ -38,6 +37,8 @@ public class MenuItemService {
             throw new RuntimeException("Error creating menu item", e);
         }
     }
+
+     */
 
     public List<MenuItemDto> getAllMenuItems() {
         List<MenuItem> menuItems = menuItemRepository.findAll();

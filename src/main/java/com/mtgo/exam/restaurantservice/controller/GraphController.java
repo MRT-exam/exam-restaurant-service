@@ -33,13 +33,13 @@ public class GraphController {
         return IRestaurantRepository.findAll();
     }
 
-    public List<RestaurantDto> getAllMenuRestaurants(){
+    public List<RestaurantDto> getAllRestaurants(){
         return restaurantService.getAllRestaurants();
     }
 
 
     @QueryMapping
-    public Optional<RestaurantDto> restaurantById(@Argument String id) {
+    public RestaurantDto restaurantById(@Argument String id) {
         log.info("Quering the restaurant data with the id {}", id);
         return restaurantService.getRestaurantById(id);
     }

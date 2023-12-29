@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class RestaurantService implements IRestaurantService{
         Restaurant savedRestaurant = IRestaurantRepository.save(restaurant);
         return this.mapToRestaurantDto(savedRestaurant);
     }
-
+    @Override
     public void createMenuItem(MenuItemRequest menuItemRequest) {
         log.info("Creating menu item for restaurant with ID: {}", menuItemRequest.getRestaurantId());
         Restaurant restaurant = IRestaurantRepository.findById(menuItemRequest.getRestaurantId())
@@ -48,7 +49,7 @@ public class RestaurantService implements IRestaurantService{
         restaurant.getMenuItems().add(menuItem);
         IRestaurantRepository.save(restaurant);
     }
-
+    @Override
     public List<RestaurantDto> getAllRestaurants() {
         List<Restaurant> restaurants = IRestaurantRepository.findAll();
         if (restaurants.isEmpty()) {
@@ -56,7 +57,7 @@ public class RestaurantService implements IRestaurantService{
         }
         return restaurants.stream().map(this::mapToRestaurantDto).toList();
     }
-
+    @Override
     public List<MenuItemDto> getMenuItemsByRestaurantId(String restaurantId) {
         Restaurant restaurant = IRestaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + restaurantId + "not found"));
@@ -67,6 +68,13 @@ public class RestaurantService implements IRestaurantService{
                 .toList();
 
         return menuItemDtos;
+    }
+
+    @Override
+    public RestaurantDto getRestaurantById(String id) {
+        Restaurant restaurant = IRestaurantRepository.findById(id)
+                .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id" + id + " not found"));
+        return mapToRestaurantDto(restaurant);
     }
 
 
