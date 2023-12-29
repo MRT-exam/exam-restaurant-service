@@ -1,8 +1,10 @@
 package com.mtgo.exam.restaurantservice.controller;
 
+import com.mtgo.exam.restaurantservice.dto.MenuItemResponse;
 import com.mtgo.exam.restaurantservice.dto.RestaurantResponse;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
 import com.mtgo.exam.restaurantservice.respoitory.RestaurantRepository;
+import com.mtgo.exam.restaurantservice.service.MenuItemService;
 import com.mtgo.exam.restaurantservice.service.RestaurantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,17 @@ public class GraphController {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantService restaurantService;
+
+    private final MenuItemService menuItemService;
+
     //private final RestaurantRepository restaurantRepository;
     //private final RestaurantService restaurantService;
 
     @Autowired
-    public GraphController(RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
+    public GraphController(RestaurantRepository restaurantRepository, RestaurantService restaurantService, MenuItemService menuItemService ) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantService = restaurantService;
+        this.menuItemService = menuItemService;
     }
 
     @QueryMapping
@@ -35,6 +41,12 @@ public class GraphController {
 
     public List<RestaurantResponse> getAllMenuRestaurants(){
         return restaurantService.getAllRestaurants();
+    }
+
+    @QueryMapping
+    public List<MenuItemResponse> menuItemsByRestaurantId(@Argument String restaurantId) {
+        log.info("Querying menu items for restaurant with id {}", restaurantId);
+        return menuItemService.getMenuItemsByRestaurantId(restaurantId);
     }
 
 

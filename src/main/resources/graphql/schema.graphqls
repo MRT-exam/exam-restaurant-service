@@ -12,6 +12,7 @@
 
 type Query {
     restaurants: [Restaurant]
+    menuItemsByRestaurantId(restaurantId: ID!): [MenuItem]
 }
 
 type Restaurant {
@@ -20,3 +21,22 @@ type Restaurant {
     email: String!
 }
 
+type MenuItem {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+}
+
+
+##### WORKS
+#type Query {
+#    restaurants: [Restaurant]
+#}
+#
+#type Restaurant {
+#    id: ID!
+#    name: String!
+#    email: String!
+#}
+##### WORKS
