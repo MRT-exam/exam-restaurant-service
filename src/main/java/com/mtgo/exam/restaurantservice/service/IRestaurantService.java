@@ -19,4 +19,6 @@ public interface IRestaurantService {
     public List<MenuItemDto> getMenuItemsByRestaurantId(String restaurantId);
 
     public RestaurantDto getRestaurantById(String id);
+
+    public List<MenuItemDto> getMenuItemsConvertedCurrency(String restaurantId, String currency);
 }

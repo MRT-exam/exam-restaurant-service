@@ -49,6 +49,13 @@ public class RestaurantController  {
         return new ResponseEntity<>(menuItemDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/{restaurantId}/menu/{currency}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<List<MenuItemDto>> getMenuWithConvertedCurrency(@PathVariable String restaurantId, @PathVariable String currency) {
+        List<MenuItemDto> menuItemDtos = restaurantService.getMenuItemsConvertedCurrency(restaurantId, currency);
+        return new ResponseEntity<>(menuItemDtos, HttpStatus.OK);
+    }
+
     @PostMapping("/populate")
     @ResponseStatus(HttpStatus.CREATED)
     public void populateDatabaseFromCsv() {

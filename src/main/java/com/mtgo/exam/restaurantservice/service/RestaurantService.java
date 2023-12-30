@@ -1,5 +1,8 @@
 package com.mtgo.exam.restaurantservice.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mtgo.exam.restaurantservice.dto.MenuItemDto;
 import com.mtgo.exam.restaurantservice.dto.MenuItemRequest;
 import com.mtgo.exam.restaurantservice.dto.RestaurantRequest;
@@ -15,6 +18,12 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,6 +75,23 @@ public class RestaurantService implements IRestaurantService{
         return restaurants.stream().map(this::mapToRestaurantDto).toList();
     }
     @Override
+    public List<MenuItemDto> getMenuItemsConvertedCurrency(String restaurantId, String currency) {
+        Restaurant restaurant = IRestaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + restaurantId + "not found"));
+        List<MenuItemDto> menuItemDtos = restaurant.getMenuItems()
+                .stream()
+                .map(this::mapToMenuItemDto)
+                .toList();
+        if (currency != null) {
+            double rate = getCurrencyConvertion(currency);
+            for (MenuItemDto menuItemDto : menuItemDtos) {
+                menuItemDto.setPrice(menuItemDto.getPrice().multiply(new BigDecimal(rate).setScale(2, RoundingMode.CEILING)));
+            }
+        }
+        return menuItemDtos;
+    }
+
+    @Override
     public List<MenuItemDto> getMenuItemsByRestaurantId(String restaurantId) {
         Restaurant restaurant = IRestaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + restaurantId + "not found"));
@@ -83,6 +109,34 @@ public class RestaurantService implements IRestaurantService{
         Restaurant restaurant = IRestaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id" + id + " not found"));
         return mapToRestaurantDto(restaurant);
+    }
+
+    private double getCurrencyConvertion(String currency){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_0dFB9lxrvoPe1l392xGkRWZJFfxpnv3uCFNoYnwo&currencies=" + currency + "&base_currency=DKK"))
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        try {
+            // Parse JSON string to JsonNode
+            JsonNode jsonNode = objectMapper.readTree(response.body());
+
+            // Extract value
+            double exchangeRate = jsonNode.get("data").get(currency).asDouble();
+            return exchangeRate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1.0;
     }
 
 
