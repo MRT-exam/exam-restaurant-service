@@ -92,7 +92,7 @@ class MenuItemIntegrationTest {
                 .name("Test Item")
                 .description("Test Description")
                 .price(BigDecimal.valueOf(9.99))
-                .id("testRestaurantId")
+                .restaurantId("testRestaurantId")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/menuItem/create")
@@ -107,9 +107,6 @@ class MenuItemIntegrationTest {
         assertEquals("Test Item", menuItemDto.getName());
         assertEquals("Test Description", menuItemDto.getDescription());
         assertEquals(BigDecimal.valueOf(9.99), menuItemDto.getPrice());
-        assertNotNull(menuItemDto.getRestaurant());
-        assertEquals("testRestaurantId", menuItemDto.getRestaurant().getId());
-        assertEquals("Test Restaurant", menuItemDto.getRestaurant().getName());
     }
 
     // Should return a list of MenuItemResponse objects when given a valid restaurantId
@@ -144,12 +141,10 @@ class MenuItemIntegrationTest {
         Assert.assertEquals("Item 1", result.get(0).getName());
         Assert.assertEquals("Description 1", result.get(0).getDescription());
         Assert.assertEquals(BigDecimal.valueOf(10.99), result.get(0).getPrice());
-        Assert.assertNotNull(result.get(0).getRestaurant());
         Assert.assertEquals("2", result.get(1).getId());
         Assert.assertEquals("Item 2", result.get(1).getName());
         Assert.assertEquals("Description 2", result.get(1).getDescription());
         Assert.assertEquals(BigDecimal.valueOf(15.99), result.get(1).getPrice());
-        Assert.assertNotNull(result.get(1).getRestaurant());
     }
 
 

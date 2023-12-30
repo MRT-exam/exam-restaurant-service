@@ -70,7 +70,7 @@ class RestaurantServiceApplicationTests {
 				.name("trabilsaktor")
 				.description("asdasd")
 				.price(BigDecimal.valueOf(2222))
-				.id("6554c6178dc83b51ed4e7414")
+				.restaurantId("6554c6178dc83b51ed4e7414")
 				.build();
 	}
 	@Test

@@ -59,7 +59,6 @@ public class MenuItemService {
                 .name(menuItem.getName())
                 .description(menuItem.getDescription())
                 .price(menuItem.getPrice())
-                .restaurant(menuItem.getRestaurant())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.mtgo.exam.restaurantservice.model;
 
+import com.mtgo.exam.restaurantservice.annotation.CascadeSave;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Restaurant {
     private String id;
     private String name;
     private String email;
+    @CascadeSave
     @DBRef
     private List<MenuItem> menuItems;
 }

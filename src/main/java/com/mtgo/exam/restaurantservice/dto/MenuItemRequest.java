@@ -17,9 +17,6 @@ import java.math.BigDecimal;
 public class MenuItemRequest {
     @NotNull
     @NotBlank
-    private String id;
-    @NotNull
-    @NotBlank
     private String name;
     @NotNull
     @NotBlank

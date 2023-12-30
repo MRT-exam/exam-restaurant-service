@@ -18,5 +18,5 @@ public class MenuItemDto {
     private String name;
     private String description;
     private BigDecimal price;
-    private Restaurant restaurant;
+    //private Restaurant restaurant;
 }

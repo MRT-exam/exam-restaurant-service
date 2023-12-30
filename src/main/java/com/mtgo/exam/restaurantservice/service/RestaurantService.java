@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class RestaurantService implements IRestaurantService{
         Restaurant restaurant = Restaurant.builder()
                 .name(restaurantRequest.getName())
                 .email(restaurantRequest.getEmail())
+                .menuItems(new ArrayList<>())
                 .build();
         Restaurant savedRestaurant = IRestaurantRepository.save(restaurant);
         return this.mapToRestaurantDto(savedRestaurant);
@@ -46,7 +48,13 @@ public class RestaurantService implements IRestaurantService{
                     .price(menuItemRequest.getPrice())
                     .restaurant(restaurant)
                     .build();
-        restaurant.getMenuItems().add(menuItem);
+        if (restaurant.getMenuItems() == null) {
+            List<MenuItem> menuItems = new ArrayList<>();
+            menuItems.add(menuItem);
+            restaurant.setMenuItems(menuItems);
+        } else {
+            restaurant.getMenuItems().add(menuItem);
+        }
         IRestaurantRepository.save(restaurant);
     }
     @Override
@@ -91,7 +99,6 @@ public class RestaurantService implements IRestaurantService{
                 .name(menuItem.getName())
                 .description(menuItem.getDescription())
                 .price(menuItem.getPrice())
-                .restaurant(menuItem.getRestaurant())
                 .build();
     }
 

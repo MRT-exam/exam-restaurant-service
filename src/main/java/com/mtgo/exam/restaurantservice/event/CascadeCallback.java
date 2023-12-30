@@ -1,11 +1,13 @@
 package com.mtgo.exam.restaurantservice.event;
 
 import com.mtgo.exam.restaurantservice.annotation.CascadeSave;
+import org.springframework.data.mapping.MappingException;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class CascadeCallback implements ReflectionUtils.FieldCallback {
 
@@ -24,15 +26,23 @@ public class CascadeCallback implements ReflectionUtils.FieldCallback {
         if (field.isAnnotationPresent(DBRef.class) && field.isAnnotationPresent(CascadeSave.class)) {
             final Object fieldValue = field.get(getSource());
 
-            if (fieldValue != null) {
-                final FieldCallback callback = new FieldCallback();
-
-                ReflectionUtils.doWithFields(fieldValue.getClass(), callback);
-
-                getMongoOperations().save(fieldValue);
+            if (fieldValue instanceof List<?>) {
+                for (Object item : (List<?>) fieldValue) {
+                    getMongoOperations().save(item);
+                }
+            } else if (fieldValue != null){
+                checkAndSave(fieldValue);
             }
         }
+    }
 
+    private void checkAndSave(Object fieldValue) {
+        final FieldCallback callback = new FieldCallback();
+        ReflectionUtils.doWithFields(fieldValue.getClass(), callback);
+        if (!callback.isIdFound()) {
+            throw new MappingException("Something went wrong when trying to map the child object. Child no @Id ?");
+        }
+        getMongoOperations().save(fieldValue);
     }
 
     private Object getSource() {
