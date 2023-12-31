@@ -86,6 +86,7 @@ class MenuItemIntegrationTest {
         Restaurant testRestaurant = new Restaurant();
         testRestaurant.setId("testRestaurantId");
         testRestaurant.setName("Test Restaurant");
+        testRestaurant.setEmail("testmail@mail.test");
         IRestaurantRepository.save(testRestaurant);
         MenuItemRequest menuItemRequest = MenuItemRequest.builder()
                 .name("Test Item")
@@ -94,7 +95,7 @@ class MenuItemIntegrationTest {
                 .restaurantId("testRestaurantId")
                 .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/testRestaurantId/menuItem/new")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/restaurants/menuItem/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(menuItemRequest)))
                 .andExpect(status().isCreated());
