@@ -8,6 +8,7 @@
 #    email: String
 #}
 
+#Get all menu items from restaurant
 
 type Query {
     restaurants: [Restaurant]

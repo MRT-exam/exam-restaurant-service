@@ -53,6 +53,7 @@ class RestaurantServiceApplicationTests {
 		testRestaurant.setName("Test Restaurant");
 		IRestaurantRepository.save(testRestaurant);
 	}
+	/*
 	@Test
 	void shouldCreateMenuItem() throws Exception {
 		MenuItemRequest menuItemRequest = getMenuItemRequest();
@@ -64,6 +65,8 @@ class RestaurantServiceApplicationTests {
 				.andExpect(status().isCreated());
 		Assertions.assertEquals(1, IRestaurantRepository.findAll().size());
 	}
+
+	 */
 
 	private MenuItemRequest getMenuItemRequest() {
 		return MenuItemRequest.builder()

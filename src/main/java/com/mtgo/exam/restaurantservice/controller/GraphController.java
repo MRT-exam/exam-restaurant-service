@@ -1,8 +1,10 @@
 package com.mtgo.exam.restaurantservice.controller;
 
+import com.mtgo.exam.restaurantservice.dto.MenuItemDto;
 import com.mtgo.exam.restaurantservice.dto.RestaurantDto;
 import com.mtgo.exam.restaurantservice.model.Restaurant;
 import com.mtgo.exam.restaurantservice.respository.IRestaurantRepository;
+import com.mtgo.exam.restaurantservice.service.IRestaurantService;
 import com.mtgo.exam.restaurantservice.service.RestaurantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,7 @@ import java.util.Optional;
 public class GraphController {
 
     private final IRestaurantRepository IRestaurantRepository;
-    private final RestaurantService restaurantService;
-    //private final RestaurantRepository restaurantRepository;
-    //private final RestaurantService restaurantService;
+    private final IRestaurantService restaurantService;
 
     @Autowired
     public GraphController(IRestaurantRepository IRestaurantRepository, RestaurantService restaurantService) {
@@ -29,18 +29,17 @@ public class GraphController {
     }
 
     @QueryMapping
-    Iterable<Restaurant> restaurants () {
-        return IRestaurantRepository.findAll();
-    }
-
     public List<RestaurantDto> getAllRestaurants(){
         return restaurantService.getAllRestaurants();
     }
 
+    @QueryMapping
+    public List<MenuItemDto> getMenuItemsByRestaurantId(@Argument String restaurantId) {
+        return restaurantService.getMenuItemsByRestaurantId(restaurantId);
+    }
 
     @QueryMapping
-    public RestaurantDto restaurantById(@Argument String id) {
-        log.info("Quering the restaurant data with the id {}", id);
+    public RestaurantDto getRestaurantById(@Argument String id) {
         return restaurantService.getRestaurantById(id);
     }
 }

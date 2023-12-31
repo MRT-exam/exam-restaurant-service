@@ -1,17 +1,7 @@
-#type Query {
-#    restaurantById (id: ID ): Restaurant
-#}
-#
-#type Restaurant {
-#    id: ID
-#    name: String
-#    email: String
-#}
-
-#Get all menu items from restaurant
-
 type Query {
-    restaurants: [Restaurant]
+    getAllRestaurants: [Restaurant]
+    getMenuItemsByRestaurantId(restaurantId: ID!): [MenuItem]
+    getRestaurantById(restaurantId: ID!): Restaurant
 }
 
 type Restaurant {
@@ -20,3 +10,9 @@ type Restaurant {
     email: String!
 }
 
+type MenuItem {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+}
