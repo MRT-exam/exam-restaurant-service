@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -78,6 +80,9 @@ public class MenuItemService {
 
             // Extract value
             double exchangeRate = jsonNode.get("data").get(currency).asDouble();
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.CEILING);
+            df.format(exchangeRate);
             return exchangeRate;
         } catch (Exception e) {
             e.printStackTrace();
